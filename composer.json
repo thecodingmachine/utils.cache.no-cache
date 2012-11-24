@@ -3,7 +3,7 @@
     "description": "This package contains a cache mechanism that... does not cache anything. This is useful if another component requires a cache mechanism and if you don't want to provide any (for development purpose...).",
     "keywords": ["mouf", "cache", "nocache"],
     "homepage": "https://github.com/thecodingmachine/utils.cache.no-cache",
-    "type": "library",
+    "type": "mouf-library",
     "license": "MIT",
     "authors": [
         {
