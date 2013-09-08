@@ -1,6 +1,9 @@
 <?php
 namespace Mouf\Utils\Cache;
 
+use Mouf\Utils\Log\LogInterface;
+use Psr\Log\LoggerInterface;
+
 /**
  * This package contains a cache mechanism that... does not cache anything.
  * This is useful if another component requires a cache mechanism and if you don't want to provide any (for development purpose...).
@@ -11,9 +14,9 @@ class NoCache implements CacheInterface {
 	
 	/**
 	 * The logger used to trace the cache activity.
+	 * Supports both PSR3 compatible logger and old Mouf logger for compatibility reasons.
 	 *
-	 * @Property
-	 * @var LogInterface
+	 * @var LoggerInterface|LogInterface
 	 */
 	public $log;
 	
@@ -25,7 +28,11 @@ class NoCache implements CacheInterface {
 	 */
 	public function get($key) {
 		if ($this->log != null) {
-			$this->log->trace("Retrieving key '$key' from no-cache: no value returned");
+			if ($this->log instanceof LoggerInterface) {
+				$this->log->info("Retrieving key '{key}' from no-cache: no value returned", array('key'=>$key));
+			} else {
+				$this->log->trace("Retrieving key '$key' from no-cache: no value returned");
+			}
 		}
 		return null;
 	}
@@ -39,7 +46,16 @@ class NoCache implements CacheInterface {
 	 */
 	public function set($key, $value, $timeToLive = null) {
 		if ($this->log != null) {
-			$this->log->trace("Storing value in no-cache: key '$key', value '".var_export($value, true)."'. Nothing will be stored.");
+			if ($this->log instanceof LoggerInterface) {
+				$this->log->info("Storing value in no-cache: key '{key}', value '{$value}'. Nothing will be stored.",
+				array(
+					'key'=>$key,
+					'value'=>var_export($value, true)
+				)
+			);
+			} else {
+				$this->log->trace("Storing value in no-cache: key '$key', value '".var_export($value, true)."'. Nothing will be stored.");
+			}
 		}		
 	}
 	
@@ -50,7 +66,11 @@ class NoCache implements CacheInterface {
 	 */
 	public function purge($key) {
 		if ($this->log != null) {
-			$this->log->trace("Purging key '$key' from no-cache. Nothing to purge.");
+			if ($this->log instanceof LoggerInterface) {
+				$this->log->info("Purging key '{key}' from no-cache. Nothing to purge.", array('key'=>$key));
+			} else {
+				$this->log->trace("Purging key '$key' from no-cache. Nothing to purge.");
+			}
 		}
 	}
 	
@@ -60,7 +80,11 @@ class NoCache implements CacheInterface {
 	 */
 	public function purgeAll() {
 		if ($this->log != null) {
-			$this->log->trace("Purging all data from no-cache. Nothing to purge.");
+			if ($this->log instanceof LoggerInterface) {
+				$this->log->info("Purging all data from no-cache. Nothing to purge.");
+			} else {
+				$this->log->trace("Purging all data from no-cache. Nothing to purge.");
+			}
 		}
 	}
 	

@@ -18,8 +18,8 @@ $moufManager = MoufManager::getMoufManager();
 if (!$moufManager->instanceExists("noCacheService")) {
 	$noCacheService = $moufManager->createInstance("Mouf\\Utils\\Cache\\NoCache");
 	$noCacheService->setName("noCacheService");
-	if ($moufManager->instanceExists("errorLogLogger")) {
-		$noCacheService->getProperty("log")->setValue($moufManager->getInstanceDescriptor("errorLogLogger"));
+	if ($moufManager->instanceExists("psr.errorLogLogger")) {
+		$noCacheService->getProperty("log")->setValue($moufManager->getInstanceDescriptor("psr.errorLogLogger"));
 	}
 }
 
