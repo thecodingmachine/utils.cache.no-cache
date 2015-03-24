@@ -47,7 +47,7 @@ class NoCache implements CacheInterface {
 	public function set($key, $value, $timeToLive = null) {
 		if ($this->log != null) {
 			if ($this->log instanceof LoggerInterface) {
-				$this->log->info("Storing value in no-cache: key '{key}', value '{$value}'. Nothing will be stored.",
+				$this->log->info("Storing value in no-cache: key '{key}', value '".var_export($value, true)."'. Nothing will be stored.",
 				array(
 					'key'=>$key,
 					'value'=>var_export($value, true)
